@@ -1,0 +1,23 @@
+[package]
+name = "smt_sb-rs"
+version = "0.1.0"
+edition = "2021"
+authors = ["David Doose <David.Doose@gmail.com>"]
+license = "LGPL-3.0-only"
+description = "SMT Simple Binding"
+repository = "https://github.com/DavidD12/smt_sb-rs"
+readme = "README.md"
+keywords = ["SMT"]
+include = ["**/*.rs", "Cargo.toml", "Readme_crates.md"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[lib]
+name = "smt_sb"
+path = "src/lib.rs"
+
+[[bin]]
+name = "main"
+path = "bin/main.rs"
