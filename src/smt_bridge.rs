@@ -100,6 +100,14 @@ impl SmtBridge {
         self.write_line(&line)
     }
 
+    pub fn declare_enumeration(&mut self, name: &str, elements: &[&str]) -> std::io::Result<()> {
+        let mut line = format!("(declare-datatypes () ({}", name);
+        for element in elements.iter() {
+            line += &format!(" {}", element);
+        }
+        self.write_line(&line)
+    }
+
     pub fn declare_const(&mut self, name: &str, sort: &str) -> std::io::Result<()> {
         let line = format!("(declare-const {} {})", name, sort);
         self.write_line(&line)
