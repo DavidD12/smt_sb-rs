@@ -101,10 +101,11 @@ impl SmtBridge {
     }
 
     pub fn declare_enumeration(&mut self, name: &str, elements: &[&str]) -> std::io::Result<()> {
-        let mut line = format!("(declare-datatypes () ({}", name);
+        let mut line = format!("(declare-datatypes () (({}", name);
         for element in elements.iter() {
             line += &format!(" {}", element);
         }
+        line += ")))";
         self.write_line(&line)
     }
 
