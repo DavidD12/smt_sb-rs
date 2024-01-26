@@ -131,6 +131,16 @@ impl SmtBridge {
         self.write_line(&line)
     }
 
+    pub fn minimize(&mut self, expr: &str) -> std::io::Result<()> {
+        let line = format!("(minimize {})", expr);
+        self.write_line(&line)
+    }
+
+    pub fn maximize(&mut self, expr: &str) -> std::io::Result<()> {
+        let line = format!("(maxnimize {})", expr);
+        self.write_line(&line)
+    }
+
     pub fn push(&mut self) -> std::io::Result<()> {
         self.write_line("(push)")?;
         self.flush()
