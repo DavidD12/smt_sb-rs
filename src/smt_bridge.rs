@@ -151,10 +151,25 @@ impl SmtBridge {
         self.flush()
     }
 
-    pub fn apply(&mut self, tactic: &str) -> std::io::Result<()> {
+    pub fn apply(&mut self, tactic: &str) -> std::io::Result<String> {
         let line = format!("(apply {})", tactic);
         self.write_line(&line)?;
-        self.flush()
+        self.flush()?;
+
+        let mut result = "".to_string();
+        let mut count = 0;
+
+        loop {
+            let s = self.read_line()?;
+            result += &format!("{}", s);
+
+            count += s.chars().filter(|&c| c == '(').count();
+            count -= s.chars().filter(|&c| c == ')').count();
+            if count == 0 {
+                return Ok(result);
+            }
+            result += "\n";
+        }
     }
 
     pub fn check_sat(&mut self) -> std::io::Result<SatResult> {
