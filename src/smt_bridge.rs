@@ -145,7 +145,7 @@ impl SmtBridge {
                 line += &format!(" ({})", p);
             }
         }
-        line += &format!(") {} {}", sort, expr);
+        line += &format!(") {} {})", sort, expr);
         self.write_line(&line)
     }
 
