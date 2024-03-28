@@ -114,6 +114,11 @@ impl SmtBridge {
         self.write_line(&line)
     }
 
+    pub fn define_const(&mut self, name: &str, sort: &str, value: &str) -> std::io::Result<()> {
+        let line = format!("(define-const {} {} {})", name, sort, value);
+        self.write_line(&line)
+    }
+
     pub fn declare_fun(&mut self, name: &str, params: &[&str], sort: &str) -> std::io::Result<()> {
         let mut line = format!("(declare-fun {} (", name);
         if let Some((first, others)) = params.split_first() {
@@ -123,6 +128,24 @@ impl SmtBridge {
             }
         }
         line += &format!(") {})", sort);
+        self.write_line(&line)
+    }
+
+    pub fn define_fun(
+        &mut self,
+        name: &str,
+        params: &[&str],
+        sort: &str,
+        expr: &str,
+    ) -> std::io::Result<()> {
+        let mut line = format!("(define-fun {} (", name);
+        if let Some((first, others)) = params.split_first() {
+            line += &format!("({})", first);
+            for p in others {
+                line += &format!(" ({})", p);
+            }
+        }
+        line += &format!(") {} {}", sort, expr);
         self.write_line(&line)
     }
 
@@ -137,7 +160,7 @@ impl SmtBridge {
     }
 
     pub fn maximize(&mut self, expr: &str) -> std::io::Result<()> {
-        let line = format!("(maxnimize {})", expr);
+        let line = format!("(maximize {})", expr);
         self.write_line(&line)
     }
 
